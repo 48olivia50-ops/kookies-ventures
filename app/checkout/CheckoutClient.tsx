@@ -28,7 +28,10 @@ export default function CheckoutClient({ tenantSlug, isAuth }: Props) {
   useEffect(() => {
     if (state?.success && state?.redirectUrl) {
       clearCart();
-      router.push(state.redirectUrl);
+      // Small delay to show success message before redirect
+      setTimeout(() => {
+        router.push(state.redirectUrl);
+      }, 1500);
     }
   }, [state, router, clearCart]);
 
@@ -147,6 +150,12 @@ export default function CheckoutClient({ tenantSlug, isAuth }: Props) {
           )}
 
           {state?.error && <div className={styles.error}>{state.error}</div>}
+
+          {state?.success && (
+            <div className={styles.success}>
+              ✅ Order placed successfully! Redirecting to confirmation page...
+            </div>
+          )}
 
           <button type="submit" className={styles.placeOrderBtn} disabled={pending}>
             {pending ? 'Placing Order...' : `Place Order · ${formatPrice(total)}`}

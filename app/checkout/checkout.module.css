@@ -168,6 +168,15 @@
   font-weight: 500;
 }
 
+.success {
+  background-color: #ecfdf5;
+  color: #059669;
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  border: 1px solid #a7f3d0;
+  font-weight: 500;
+}
+
 .placeOrderBtn {
   padding: 1.25rem;
   background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
@@ -437,6 +446,11 @@
   }
 
   .error {
+    padding: 0.875rem;
+    font-size: 0.875rem;
+  }
+
+  .success {
     padding: 0.875rem;
     font-size: 0.875rem;
   }
