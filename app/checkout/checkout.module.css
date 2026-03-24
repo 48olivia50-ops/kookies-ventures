@@ -1,0 +1,174 @@
+.checkoutPage {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem;
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 3rem;
+  align-items: start;
+}
+
+.checkoutLeft { display: flex; flex-direction: column; gap: 2rem; }
+
+.title { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; }
+
+.orderSummary {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+}
+
+.orderSummary h3 { font-size: 1rem; font-weight: 700; margin-bottom: 1rem; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.05em; font-size: 0.8125rem; }
+
+.orderItem { display: flex; justify-content: space-between; padding: 0.6rem 0; border-bottom: 1px dashed var(--color-border); font-size: 0.9375rem; }
+.orderItem:last-of-type { border-bottom: none; }
+
+.orderTotal { display: flex; justify-content: space-between; font-size: 1.25rem; font-weight: 800; padding-top: 1rem; margin-top: 0.5rem; border-top: 2px solid var(--color-border); }
+
+.form { display: flex; flex-direction: column; gap: 2rem; }
+
+.section {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+}
+
+.section h3 { font-size: 1.0625rem; font-weight: 700; margin-bottom: 1.25rem; }
+
+.paymentOptions { display: flex; flex-direction: column; gap: 1rem; }
+
+.paymentOption {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.paymentOption input[type="radio"] { display: none; }
+
+.paymentOption.selected { border-color: var(--color-primary); background: rgba(138, 74, 243, 0.05); }
+
+.paymentIcon { font-size: 2rem; flex-shrink: 0; }
+
+.paymentOption strong { display: block; font-weight: 700; margin-bottom: 0.25rem; }
+
+.paymentOption p { font-size: 0.875rem; color: var(--color-text-muted); margin: 0; }
+
+.formGroup { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1rem; }
+
+.formGroup label { font-size: 0.875rem; font-weight: 600; }
+
+.input {
+  padding: 0.875rem 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  font-family: inherit;
+  background-color: var(--color-base);
+  transition: var(--transition);
+}
+
+.input:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0 0 3px rgba(138, 74, 243, 0.15); }
+
+.mmInfo {
+  background: rgba(59, 130, 246, 0.08);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  font-size: 0.9375rem;
+  color: #3b82f6;
+  margin-top: 0.5rem;
+}
+
+.error { background-color: #fef2f2; color: #ef4444; padding: 1rem; border-radius: var(--radius-md); border: 1px solid #fecaca; font-weight: 500; }
+
+.placeOrderBtn {
+  padding: 1.25rem;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  color: white;
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  font-size: 1.125rem;
+  transition: var(--transition);
+  cursor: pointer;
+  border: none;
+  font-family: inherit;
+}
+
+.placeOrderBtn:hover:not(:disabled) { opacity: 0.9; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(138,74,243,0.35); }
+.placeOrderBtn:disabled { opacity: 0.7; cursor: not-allowed; }
+
+/* Trust box */
+.checkoutRight { position: sticky; top: 2rem; }
+
+.trustBox {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+}
+
+.trustBox h3 { font-size: 1rem; font-weight: 700; margin-bottom: 1rem; }
+
+.trustBox ul { list-style: none; display: flex; flex-direction: column; gap: 0.75rem; }
+
+.trustBox li { font-size: 0.9375rem; color: var(--color-text-muted); }
+
+/* Login Gate */
+.loginGate { display: flex; align-items: center; justify-content: center; min-height: calc(100vh - 70px); padding: 2rem; }
+
+.loginCard {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: 3rem;
+  max-width: 440px;
+  width: 100%;
+  text-align: center;
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.gateIcon { font-size: 3.5rem; }
+
+.loginCard h2 { font-size: 1.75rem; font-weight: 800; }
+.loginCard p { color: var(--color-text-muted); }
+
+.gateActions { display: flex; gap: 1rem; margin-top: 0.5rem; width: 100%; }
+
+.btnPrimary {
+  flex: 1;
+  padding: 0.875rem;
+  background-color: var(--color-primary);
+  color: white;
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  text-align: center;
+  transition: var(--transition);
+}
+.btnPrimary:hover { background-color: var(--color-primary-dark); }
+
+.btnSecondary {
+  flex: 1;
+  padding: 0.875rem;
+  background-color: var(--color-base);
+  color: var(--color-text-main);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  text-align: center;
+  transition: var(--transition);
+}
+.btnSecondary:hover { border-color: var(--color-primary); color: var(--color-primary); }
+
+.backLink { font-size: 0.875rem; color: var(--color-text-muted); margin-top: 0.5rem; }
+.backLink:hover { color: var(--color-primary); }

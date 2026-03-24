@@ -1,0 +1,123 @@
+.container { display: flex; flex-direction: column; gap: 2rem; }
+
+.header { display: flex; justify-content: space-between; align-items: flex-end; gap: 2rem; margin-bottom: 2rem; }
+.headerLeft { display: flex; flex-direction: column; gap: 0.25rem; }
+.title { font-size: 2.5rem; font-weight: 800; letter-spacing: -0.03em; color: var(--color-text-main); }
+.subtitle { color: var(--color-text-muted); font-size: 1.125rem; }
+
+.headerActions { display: flex; align-items: center; gap: 1rem; }
+
+.exportForm { display: flex; align-items: center; gap: 1rem; background: var(--color-surface); padding: 0.75rem; border-radius: var(--radius-lg); border: 1px solid var(--color-border); box-shadow: var(--shadow-sm); }
+
+.filterGroup { display: flex; align-items: center; gap: 0.5rem; }
+
+.dateInput { padding: 0.5rem; border: 1px solid var(--color-border); border-radius: var(--radius-md); font-size: 0.875rem; color: var(--color-text-main); background: var(--color-base); }
+
+.exportBtn { padding: 0.625rem 1.25rem; background-color: var(--color-secondary); color: white; border-radius: var(--radius-md); font-weight: 600; font-size: 0.875rem; transition: var(--transition); display: flex; align-items: center; gap: 0.5rem; }
+
+.exportBtn:hover { background-color: #1e293b; transform: translateY(-1px); box-shadow: var(--shadow-md); }
+
+.ordersList { display: flex; flex-direction: column; gap: 1.5rem; }
+
+.orderCard {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  transition: var(--transition);
+}
+
+.orderCard:hover { box-shadow: var(--shadow-md); }
+
+.orderHeader { display: flex; justify-content: space-between; align-items: flex-start; }
+
+.trackingId { font-size: 1.125rem; font-weight: 800; font-family: monospace; color: var(--color-primary); margin-bottom: 0.4rem; }
+
+.orderMeta { display: flex; gap: 0.75rem; color: var(--color-text-muted); font-size: 0.875rem; }
+
+.orderTotal { font-size: 1.5rem; font-weight: 800; color: var(--color-text-main); }
+
+.progressTracker { display: flex; align-items: center; gap: 0; padding: 0.5rem 0; }
+
+.progressStep { display: flex; align-items: center; flex: 1; position: relative; }
+
+.progressStep:last-child { flex: 0; }
+
+.progressDot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: var(--color-border);
+  border: 2px solid var(--color-border);
+  flex-shrink: 0;
+  transition: var(--transition);
+  z-index: 1;
+}
+
+.progressActive .progressDot { border-color: currentColor; }
+
+.progressLabel {
+  position: absolute;
+  top: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.progressActive .progressLabel { color: var(--color-text-main); }
+
+.progressLine {
+  flex: 1;
+  height: 2px;
+  background-color: var(--color-border);
+  transition: var(--transition);
+}
+
+.progressLineActive { background-color: #10b981; }
+
+.orderItems { font-size: 0.875rem; color: var(--color-text-muted); }
+.orderItems strong { color: var(--color-text-main); }
+
+.statusForm { display: flex; gap: 1rem; align-items: center; padding-top: 0.5rem; border-top: 1px solid var(--color-border); }
+
+.statusSelect {
+  padding: 0.625rem 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  font-family: inherit;
+  background-color: var(--color-base);
+  cursor: pointer;
+  flex: 1;
+}
+
+.statusSelect:focus { outline: none; border-color: var(--color-primary); }
+
+.updateBtn {
+  padding: 0.625rem 1.25rem;
+  background-color: var(--color-primary);
+  color: white;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: 0.875rem;
+  transition: var(--transition);
+}
+
+.updateBtn:hover { background-color: var(--color-primary-dark); }
+
+.emptyState {
+  text-align: center;
+  padding: 4rem;
+  background-color: var(--color-surface);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-lg);
+  color: var(--color-text-muted);
+  font-size: 1rem;
+}
