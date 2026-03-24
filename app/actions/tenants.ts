@@ -48,13 +48,13 @@ export async function updateTenant(id: string, formData: FormData) {
   try {
     await prisma.tenant.update({
       where: { id },
-      data: { 
-        name, 
+      data: {
+        name,
         slug,
         ...(logoUrl && { logoUrl })
       }
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error('Failed to update tenant', error);
     return { error: 'Failed to update tenant' };
   }
@@ -69,7 +69,7 @@ export async function createTenant(formData: FormData) {
   const name = formData.get('name') as string;
   const slug = formData.get('slug') as string;
   const logoFile = formData.get('logo') as File | null;
-  
+
   if (!name || !slug) {
     return { error: 'Name and Slug are required' };
   }
