@@ -23,7 +23,7 @@ export async function deleteProduct(id: string) {
   }
 }
 
-export async function updateProduct(id: string, formData: FormData) {
+export async function updateProduct(id: string, formData: FormData): Promise<void> {
   const name = formData.get('name') as string;
   const price = parseFloat(formData.get('price') as string);
   const stock = parseInt(formData.get('stock') as string) || 0;
@@ -31,7 +31,7 @@ export async function updateProduct(id: string, formData: FormData) {
   const imageFile = formData.get('image') as File | null;
 
   if (!name || isNaN(price)) {
-    return { error: 'Name and Price are required' };
+    throw new Error('Name and Price are required');
   }
 
   let imageUrl = undefined;
@@ -61,7 +61,7 @@ export async function updateProduct(id: string, formData: FormData) {
     });
   } catch (error: any) {
     console.error('Failed to update product', error);
-    return { error: error.message || 'Failed to update product' };
+    throw new Error(error.message || 'Failed to update product');
   }
 
   revalidatePath('/admin/products');

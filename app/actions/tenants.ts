@@ -22,13 +22,13 @@ export async function deleteTenant(id: string) {
   }
 }
 
-export async function updateTenant(id: string, formData: FormData) {
+export async function updateTenant(id: string, formData: FormData): Promise<void> {
   const name = formData.get('name') as string;
   const slug = formData.get('slug') as string;
   const logoFile = formData.get('logo') as File | null;
 
   if (!name || !slug) {
-    return { error: 'Name and Slug are required' };
+    throw new Error('Name and Slug are required');
   }
 
   let logoUrl = undefined;
@@ -56,7 +56,7 @@ export async function updateTenant(id: string, formData: FormData) {
     });
   } catch (error: any) {
     console.error('Failed to update tenant', error);
-    return { error: 'Failed to update tenant' };
+    throw new Error('Failed to update tenant');
   }
 
   revalidatePath('/admin/settings');
