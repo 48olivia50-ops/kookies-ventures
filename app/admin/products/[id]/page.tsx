@@ -1,16 +1,17 @@
 import React from 'react';
 import { prisma } from '@/lib/prisma';
 import { notFound } from 'next/navigation';
-import { updateProduct } from '@/app/actions/products';
+import { updateProduct, deleteProductImage } from '@/app/actions/products';
 import styles from '../products.module.css';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default async function EditProductPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  
+
   const product = await prisma.product.findUnique({
     where: { id },
-    include: { tenant: true }
+    include: { tenant: true, images: true }
   });
 
   if (!product) notFound();
@@ -42,18 +43,37 @@ export default async function EditProductPage({ params }: { params: Promise<{ id
                 <label htmlFor="stock">Inventory Stock</label>
                 <input type="number" id="stock" name="stock" defaultValue={product.stock} required className={styles.input} />
               </div>
+
+              {/* Product Images Section */}
               <div className={styles.formGroup}>
-                <label htmlFor="image">Update Image (Optional)</label>
-                <input type="file" id="image" name="image" accept="image/*" className={styles.input} />
-                {product.imageUrl && (
-                  <div style={{ marginTop: '0.5rem' }}>
-                    <img src={product.imageUrl} alt="Current" style={{ height: '80px', objectFit: 'contain' }} />
-                  </div>
-                )}
+                <label>Product Images</label>
+                <div className={styles.imageGrid}>
+                  {product.imageUrl && (
+                    <div className={styles.imagePreview}>
+                      <Image src={product.imageUrl} alt="Main" width={100} height={100} style={{ objectFit: 'cover' }} />
+                      <span className={styles.imageLabel}>Main</span>
+                    </div>
+                  )}
+                  {product.images.map(img => (
+                    <div key={img.id} className={styles.imagePreview}>
+                      <Image src={img.url} alt="Image" width={100} height={100} style={{ objectFit: 'cover' }} />
+                      <form action={deleteProductImage.bind(null, img.id)}>
+                        <button type="submit" className={styles.removeImageBtn} title="Remove image">×</button>
+                      </form>
+                    </div>
+                  ))}
+                </div>
               </div>
+
+              <div className={styles.formGroup}>
+                <label htmlFor="images">Add More Images</label>
+                <input type="file" id="images" name="images" accept="image/*" multiple className={styles.input} />
+                <small style={{ color: 'var(--color-text-muted)', fontSize: '0.8125rem' }}>You can select multiple images at once</small>
+              </div>
+
               <div className={styles.formGroup}>
                 <label htmlFor="description">Description</label>
-                <textarea id="description" name="description" rows={4} defaultValue={product.description || ''} className={styles.input}></textarea>
+                <textarea id="description" name="description" rows={4} defaultValue={product.description || ''} className={styles.input} placeholder="Enter a detailed description of the product..."></textarea>
               </div>
               <button type="submit" className={styles.btnPrimary}>Save Changes</button>
             </form>

@@ -2,6 +2,7 @@ import React from 'react';
 import { prisma } from '@/lib/prisma';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import styles from './confirmation.module.css';
 import { PriceDisplay } from '@/components/PriceDisplay';
 import { CustomerHeader } from '@/components/CustomerHeader';
@@ -38,6 +39,10 @@ export default async function OrderConfirmationPage({ params }: { params: Promis
 
           <div className={styles.details}>
             <div className={styles.detailRow}>
+              <span>Order Status</span>
+              <span className={styles.statusBadge}>{order.status}</span>
+            </div>
+            <div className={styles.detailRow}>
               <span>Payment Method</span>
               <span>{order.paymentMethod === 'PAY_ON_DELIVERY' ? '📦 Pay on Delivery' : '📱 Mobile Money'}</span>
             </div>
@@ -47,8 +52,14 @@ export default async function OrderConfirmationPage({ params }: { params: Promis
             </div>
             {order.deliveryAddress && (
               <div className={styles.detailRow}>
-                <span>Delivery To</span>
+                <span>Delivery Address</span>
                 <span>{order.deliveryAddress}, {order.deliveryCity}</span>
+              </div>
+            )}
+            {order.deliveryPhone && (
+              <div className={styles.detailRow}>
+                <span>Contact Phone</span>
+                <span>{order.deliveryPhone}</span>
               </div>
             )}
             {order.mobileMoneyNumber && (
@@ -60,13 +71,52 @@ export default async function OrderConfirmationPage({ params }: { params: Promis
           </div>
 
           <div className={styles.items}>
-            <h3>Items Ordered</h3>
+            <h3>Items Ordered ({order.items.length})</h3>
             {order.items.map(item => (
               <div key={item.id} className={styles.item}>
-                <span>{item.product.name} × {item.quantity}</span>
-                <span><PriceDisplay amount={item.price * item.quantity} /></span>
+                <div className={styles.itemImage}>
+                  {item.product.imageUrl ? (
+                    <Image
+                      src={item.product.imageUrl}
+                      alt={item.product.name}
+                      width={60}
+                      height={60}
+                      style={{ objectFit: 'cover', borderRadius: '8px' }}
+                    />
+                  ) : (
+                    <div className={styles.placeholderImage}>📦</div>
+                  )}
+                </div>
+                <div className={styles.itemInfo}>
+                  <h4>{item.product.name}</h4>
+                  {item.product.description && (
+                    <p className={styles.itemDesc}>{item.product.description}</p>
+                  )}
+                  <div className={styles.itemMeta}>
+                    <span className={styles.itemQty}>Qty: {item.quantity}</span>
+                    <span className={styles.itemPrice}><PriceDisplay amount={item.price} /> each</span>
+                  </div>
+                </div>
+                <div className={styles.itemTotal}>
+                  <PriceDisplay amount={item.price * item.quantity} />
+                </div>
               </div>
             ))}
+          </div>
+
+          <div className={styles.summary}>
+            <div className={styles.summaryRow}>
+              <span>Subtotal</span>
+              <span><PriceDisplay amount={order.total} /></span>
+            </div>
+            <div className={styles.summaryRow}>
+              <span>Shipping</span>
+              <span className={styles.free}>FREE</span>
+            </div>
+            <div className={`${styles.summaryRow} ${styles.summaryTotal}`}>
+              <span>Total</span>
+              <span><PriceDisplay amount={order.total} /></span>
+            </div>
           </div>
 
           <div className={styles.actions}>

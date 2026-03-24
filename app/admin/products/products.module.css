@@ -295,3 +295,88 @@ textarea.input {
     padding: 1rem;
   }
 }
+
+/* Image Grid Styles */
+.imageGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.imagePreview {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  border: 2px solid var(--color-border);
+}
+
+.imagePreview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.imageLabel {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  font-size: 0.625rem;
+  text-align: center;
+  padding: 0.25rem;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.removeImageBtn {
+  position: absolute;
+  top: 0.25rem;
+  right: 0.25rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: none;
+  border-radius: 50%;
+  background: #ef4444;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.imagePreview:hover .removeImageBtn,
+.imagePreview:focus-within .removeImageBtn {
+  opacity: 1;
+}
+
+.removeImageBtn:hover {
+  background: #dc2626;
+}
+
+/* Mobile image grid adjustments */
+@media (max-width: 640px) {
+  .imageGrid {
+    gap: 0.5rem;
+  }
+
+  .imagePreview {
+    width: 80px;
+    height: 80px;
+  }
+
+  .removeImageBtn {
+    opacity: 1;
+    width: 1.25rem;
+    height: 1.25rem;
+    font-size: 0.875rem;
+  }
+}
