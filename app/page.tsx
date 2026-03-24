@@ -10,6 +10,7 @@ import { CurrencySelector } from '@/components/CurrencySelector';
 import { PriceDisplay } from '@/components/PriceDisplay';
 import Link from 'next/link';
 import { CustomerHeader } from '@/components/CustomerHeader';
+import { HeroSlider } from '@/components/HeroSlider';
 
 const productPatterns = [
   'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
@@ -23,7 +24,7 @@ const productPatterns = [
 export default async function Home() {
   const session = await verifySession();
   const slug = 'kookies';
-  
+
   const store = await prisma.tenant.findUnique({
     where: { slug },
     include: { products: { orderBy: { createdAt: 'desc' } } }
@@ -51,6 +52,9 @@ export default async function Home() {
               <h1>{store.name}</h1>
               <p>Premium lifestyle essentials. {store.products.length} exclusive pieces available now.</p>
             </div>
+            <div className={styles.heroSlider}>
+              <HeroSlider />
+            </div>
           </div>
 
           {!session?.isAuth && (
@@ -73,7 +77,7 @@ export default async function Home() {
                     style={{ background: productPatterns[idx % productPatterns.length] }}
                   >
                     <span className={styles.productEmoji}>
-                      {['👕','👖','🧥','👔','🧤','🧣','🧢','🪖','👗','🩱','🩲','🥻'][idx % 12]}
+                      {['👕', '👖', '🧥', '👔', '🧤', '🧣', '🧢', '🪖', '👗', '🩱', '🩲', '🥻'][idx % 12]}
                     </span>
                   </div>
                 )}

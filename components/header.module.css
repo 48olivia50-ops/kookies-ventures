@@ -117,3 +117,15 @@
     justify-content: center;
   }
 }
+
+/* Mobile-specific logo sizing */
+@media (max-width: 480px) {
+  .logo a {
+    max-width: 140px;
+  }
+
+  .logo img {
+    max-width: 100%;
+    height: auto;
+  }
+}

@@ -22,13 +22,13 @@ export function CustomerHeader({ store, session, tenantSlug }: CustomerHeaderPro
       <div className={styles.headerLeft}>
         <div className={styles.logo}>
           <Link href="/" className={styles.logoLink}>
-            <Image 
-              src={`${store.logoUrl || "/logo.svg"}?v=${Date.now()}`} 
-              alt={`${store.name} logo`} 
-              height={64} 
-              width={240} 
+            <Image
+              src={`${store.logoUrl || "/logo.svg"}?v=${Date.now()}`}
+              alt={`${store.name} logo`}
+              height={48}
+              width={180}
               className="logo-transparent"
-              style={{ objectFit: 'contain' }} 
+              style={{ objectFit: 'contain' }}
               priority
             />
           </Link>
