@@ -31,7 +31,8 @@ export async function deleteProduct(id: string) {
   }
 }
 
-export async function deleteProductImage(imageId: string) {
+export async function deleteProductImage(_prevState: any, formData: FormData) {
+  const imageId = formData.get('imageId') as string;
   try {
     const image = await prisma.productImage.findUnique({ where: { id: imageId } });
     if (image) {
@@ -41,10 +42,8 @@ export async function deleteProductImage(imageId: string) {
     }
     revalidatePath('/admin/products');
     revalidatePath('/');
-    return { success: true };
   } catch (error: any) {
     console.error('Failed to delete image:', error);
-    return { error: error.message || 'Failed to delete image' };
   }
 }
 

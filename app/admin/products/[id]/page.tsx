@@ -57,7 +57,8 @@ export default async function EditProductPage({ params }: { params: Promise<{ id
                   {product.images.map(img => (
                     <div key={img.id} className={styles.imagePreview}>
                       <Image src={img.url} alt="Image" width={100} height={100} style={{ objectFit: 'cover' }} />
-                      <form action={deleteProductImage.bind(null, img.id)}>
+                      <form action={deleteProductImage}>
+                        <input type="hidden" name="imageId" value={img.id} />
                         <button type="submit" className={styles.removeImageBtn} title="Remove image">×</button>
                       </form>
                     </div>
