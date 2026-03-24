@@ -178,3 +178,142 @@
   color: var(--color-text-muted);
   font-style: italic;
 }
+
+/* ============================================
+   MOBILE RESPONSIVE STYLES
+   ============================================ */
+
+@media (max-width: 1024px) {
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .statCard {
+    padding: 1.5rem;
+  }
+
+  .statValue {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboardContainer {
+    gap: 1.5rem;
+  }
+
+  .header {
+    gap: 0.25rem;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+  }
+
+  .statsGrid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .statCard {
+    padding: 1.25rem;
+    border-radius: 1rem;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .statCard::before {
+    width: 4px;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: auto;
+  }
+
+  .statCard h3 {
+    font-size: 0.75rem;
+  }
+
+  .statValue {
+    font-size: 1.75rem;
+  }
+
+  .recentSection {
+    border-radius: var(--radius-md);
+  }
+
+  .sectionHeader {
+    padding: 1rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .sectionHeader h2 {
+    font-size: 1.125rem;
+  }
+
+  .table th,
+  .table td {
+    padding: 0.875rem 1rem;
+    font-size: 0.8125rem;
+  }
+
+  .viewAll {
+    font-size: 0.8125rem;
+    padding: 0.5rem;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+}
+
+@media (max-width: 640px) {
+  .title {
+    font-size: 1.25rem;
+  }
+
+  .subtitle {
+    font-size: 0.875rem;
+  }
+
+  .statCard {
+    padding: 1rem;
+  }
+
+  .statCard h3 {
+    font-size: 0.6875rem;
+  }
+
+  .statValue {
+    font-size: 1.5rem;
+  }
+
+  .table th,
+  .table td {
+    padding: 0.75rem;
+    white-space: nowrap;
+  }
+
+  .emptyState {
+    padding: 2rem !important;
+  }
+}
+
+@media (max-width: 375px) {
+  .statCard {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .statValue {
+    font-size: 1.375rem;
+  }
+}

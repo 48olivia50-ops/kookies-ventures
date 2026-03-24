@@ -25,7 +25,7 @@
   font-weight: 800;
   letter-spacing: 0.1em;
   color: var(--color-primary);
-  background: rgba(138,74,243,0.1);
+  background: rgba(138, 74, 243, 0.1);
   border-radius: var(--radius-full);
   padding: 0.2rem 0.6rem;
   width: fit-content;
@@ -122,7 +122,9 @@
   font-family: inherit;
 }
 
-.logoutBtn:hover { color: #ef4444; }
+.logoutBtn:hover {
+  color: #ef4444;
+}
 
 .notifBadge {
   display: inline-flex;
@@ -141,6 +143,125 @@
 }
 
 @keyframes pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.15); }
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.15);
+  }
+}
+
+/* ============================================
+   MOBILE RESPONSIVE STYLES
+   ============================================ */
+
+/* Tablet - hide sidebar, show content */
+@media (max-width: 1024px) {
+  .sidebar {
+    width: 240px;
+  }
+
+  .sidebarHeader {
+    padding: 1rem 1.5rem;
+  }
+
+  .navLinks {
+    padding: 1rem;
+  }
+
+  .topbar {
+    padding: 0 1.5rem;
+  }
+
+  .contentArea {
+    padding: 1.5rem;
+  }
+}
+
+/* Mobile - sidebar as overlay */
+@media (max-width: 768px) {
+  .adminContainer {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 280px;
+    z-index: 1000;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  .sidebarHeader {
+    padding: 1.25rem 1.5rem;
+  }
+
+  .navLink {
+    padding: 1rem;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+  }
+
+  .topbar {
+    height: 64px;
+    padding: 0 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+
+  .pageTitle {
+    font-size: 1rem;
+    flex: 1;
+  }
+
+  .userProfile {
+    gap: 0.5rem;
+    font-size: 0.875rem;
+  }
+
+  .avatar {
+    width: 36px;
+    height: 36px;
+    font-size: 0.875rem;
+  }
+
+  .logoutBtn {
+    margin-left: 0.5rem;
+    font-size: 0.8125rem;
+    padding: 0.5rem;
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  .contentArea {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .sidebar {
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .topbar {
+    padding: 0 0.75rem;
+  }
+
+  .contentArea {
+    padding: 0.75rem;
+  }
 }

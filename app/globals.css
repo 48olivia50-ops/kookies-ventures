@@ -10,18 +10,28 @@
   --color-text-main: #1e293b;
   --color-text-muted: #64748b;
   --color-border: #e2e8f0;
-  
+
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  
+
   --radius-sm: 0.25rem;
   --radius-md: 0.5rem;
   --radius-lg: 1rem;
   --radius-xl: 1.5rem;
   --radius-full: 9999px;
-  
+
   --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Responsive Breakpoints (for reference) */
+  /* sm: 640px, md: 768px, lg: 1024px, xl: 1280px */
+
+  /* Spacing scale for mobile */
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2rem;
+  --space-xl: 3rem;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -63,9 +73,122 @@ button {
 }
 
 /* Global Logo Fix to Ensure Transparency */
-.logo-transparent, 
-img[alt*="logo" i], 
+.logo-transparent,
+img[alt*="logo" i],
 img[src*="logo" i] {
   background-color: transparent !important;
   background: transparent !important;
+}
+
+/* ============================================
+   MOBILE RESPONSIVE UTILITIES
+   ============================================ */
+
+/* Touch-friendly interactive elements */
+@media (max-width: 768px) {
+
+  /* Minimum touch target size of 44px */
+  button,
+  a,
+  [role="button"],
+  input[type="checkbox"],
+  input[type="radio"],
+  select,
+  .touchable {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Larger tap targets for primary actions */
+  .btn-primary,
+  .addToCartBtn,
+  .cartBtn,
+  .checkoutBtn {
+    min-height: 48px;
+    min-width: 48px;
+    padding: 0.875rem 1.5rem;
+  }
+
+  /* Prevent text selection on UI elements */
+  .no-select {
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Body optimizations for mobile */
+  body {
+    font-size: 16px;
+    /* Prevents iOS zoom on inputs */
+    -webkit-text-size-adjust: 100%;
+  }
+
+  /* Input font size to prevent iOS zoom */
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+
+  /* Hide horizontal overflow */
+  body {
+    overflow-x: hidden;
+  }
+}
+
+/* Responsive visibility utilities */
+@media (max-width: 640px) {
+  .hide-mobile {
+    display: none !important;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 768px) {
+  .hide-tablet {
+    display: none !important;
+  }
+}
+
+@media (min-width: 769px) {
+  .hide-desktop {
+    display: none !important;
+  }
+}
+
+/* Scrollbar styling for better mobile UX */
+@media (max-width: 768px) {
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-text-muted);
+  }
+}
+
+/* Focus styles for accessibility */
+@media (max-width: 768px) {
+  :focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  /* Remove focus outline on touch devices */
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
 }

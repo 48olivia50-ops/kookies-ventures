@@ -133,3 +133,106 @@
 .toggleBtn:hover {
   text-decoration: underline;
 }
+
+/* ============================================
+   MOBILE RESPONSIVE STYLES
+   ============================================ */
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1.5rem;
+    min-height: 100vh;
+    min-height: 100dvh;
+    /* Dynamic viewport height for mobile browsers */
+  }
+
+  .card {
+    padding: 2rem 1.5rem;
+    border-radius: var(--radius-lg);
+    max-width: 100%;
+  }
+
+  .logo {
+    margin-bottom: 2rem;
+  }
+
+  .title {
+    font-size: 1.375rem;
+  }
+
+  .subtitle {
+    margin-bottom: 1.5rem;
+    font-size: 0.9375rem;
+  }
+
+  .form {
+    gap: 1rem;
+  }
+
+  .formGroup label {
+    font-size: 0.8125rem;
+  }
+
+  .input {
+    padding: 0.875rem;
+    min-height: 52px;
+    font-size: 16px;
+    /* Prevents iOS zoom */
+  }
+
+  .submitBtn {
+    padding: 1rem;
+    min-height: 52px;
+    font-size: 1rem;
+    margin-top: 0.75rem;
+  }
+
+  .toggleFooter {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+  }
+
+  .toggleBtn {
+    padding: 0.5rem;
+    min-height: 44px;
+  }
+
+  .error {
+    padding: 0.75rem;
+    font-size: 0.8125rem;
+    margin-bottom: 1rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .card {
+    padding: 1.5rem 1.25rem;
+  }
+
+  .title {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 375px) {
+  .container {
+    padding: 0.75rem;
+  }
+
+  .card {
+    padding: 1.25rem 1rem;
+    border-radius: var(--radius-md);
+  }
+
+  .logo {
+    margin-bottom: 1.5rem;
+  }
+
+  .logo span {
+    font-size: 0.875rem;
+  }
+}
