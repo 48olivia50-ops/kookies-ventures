@@ -5,6 +5,7 @@ import { useCart } from '@/components/CartContext';
 import { useCurrency } from '@/components/CurrencyContext';
 import { placeOrder } from '@/app/actions/orders';
 import { useActionState } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 type Props = {
@@ -19,8 +20,17 @@ export default function CheckoutClient({ tenantSlug, isAuth }: Props) {
   const [state, action, pending] = useActionState(placeOrder, null);
   const [showLoginPrompt, setShowLoginPrompt] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const router = useRouter();
 
   const total = items.reduce((sum, i) => sum + i.price * i.quantity, 0);
+
+  // Handle redirect after successful order
+  useEffect(() => {
+    if (state?.success && state?.redirectUrl) {
+      clearCart();
+      router.push(state.redirectUrl);
+    }
+  }, [state, router, clearCart]);
 
   useEffect(() => {
     setMounted(true);

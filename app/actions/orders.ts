@@ -2,7 +2,6 @@
 
 import { prisma } from '@/lib/prisma';
 import { verifySession } from '@/lib/auth';
-import { redirect } from 'next/navigation';
 
 type CartItem = { id: string; name: string; price: number; quantity: number };
 
@@ -81,7 +80,8 @@ export async function placeOrder(prevState: any, formData: FormData) {
       return await tx.order.create({ data: orderData });
     });
 
-    redirect(`/order-confirmation/${order.id}`);
+    // Return redirect URL instead of calling redirect()
+    return { success: true, redirectUrl: `/order-confirmation/${order.id}` };
   } catch (error: any) {
     console.error('Order placement failed:', error);
     return { error: error.message || 'Failed to place order.' };
