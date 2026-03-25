@@ -56,27 +56,40 @@ export default async function EditProductPage({ params }: { params: Promise<{ id
                 </select>
               </div>
 
-              {/* Product Images Section */}
               <div className={styles.formGroup}>
-                <label>Product Images</label>
-                <div className={styles.imageGrid}>
-                  {product.imageUrl && (
-                    <div className={styles.imagePreview}>
-                      <Image src={product.imageUrl} alt="Main" width={100} height={100} style={{ objectFit: 'cover' }} />
-                      <span className={styles.imageLabel}>Main</span>
-                    </div>
-                  )}
-                  {product.images.map(img => (
-                    <div key={img.id} className={styles.imagePreview}>
-                      <Image src={img.url} alt="Image" width={100} height={100} style={{ objectFit: 'cover' }} />
-                      <form action={deleteProductImage}>
-                        <input type="hidden" name="imageId" value={img.id} />
-                        <button type="submit" className={styles.removeImageBtn} title="Remove image">×</button>
-                      </form>
-                    </div>
-                  ))}
-                </div>
+                <label htmlFor="images">Add More Images</label>
+                <input type="file" id="images" name="images" accept="image/*" multiple className={styles.input} />
+                <small style={{ color: 'var(--color-text-muted)', fontSize: '0.8125rem' }}>You can select multiple images at once</small>
               </div>
+
+              <div className={styles.formGroup}>
+                <label htmlFor="description">Description</label>
+                <textarea id="description" name="description" rows={4} defaultValue={product.description || ''} className={styles.input} placeholder="Enter a detailed description of the product..."></textarea>
+              </div>
+              <button type="submit" className={styles.btnPrimary}>Save Changes</button>
+            </form>
+
+            {/* Product Images Section moved outside of main form to prevent nested form bugs */}
+            <div className={styles.formGroup} style={{ marginTop: '2rem', paddingTop: '2rem', borderTop: '1px solid #e2e8f0' }}>
+              <h3 style={{ fontSize: '1.25rem', marginBottom: '1rem', color: '#0f172a' }}>Current Product Images</h3>
+              <div className={styles.imageGrid}>
+                {product.imageUrl && (
+                  <div className={styles.imagePreview}>
+                    <Image src={product.imageUrl} alt="Main" width={100} height={100} style={{ objectFit: 'cover' }} />
+                    <span className={styles.imageLabel}>Main</span>
+                  </div>
+                )}
+                {product.images.map(img => (
+                  <div key={img.id} className={styles.imagePreview}>
+                    <Image src={img.url} alt="Image" width={100} height={100} style={{ objectFit: 'cover' }} />
+                    <form action={deleteProductImage}>
+                      <input type="hidden" name="imageId" value={img.id} />
+                      <button type="submit" className={styles.removeImageBtn} title="Remove image">×</button>
+                    </form>
+                  </div>
+                ))}
+              </div>
+            </div>
 
               <div className={styles.formGroup}>
                 <label htmlFor="images">Add More Images</label>
