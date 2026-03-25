@@ -91,18 +91,7 @@ export default async function EditProductPage({ params }: { params: Promise<{ id
               </div>
             </div>
 
-              <div className={styles.formGroup}>
-                <label htmlFor="images">Add More Images</label>
-                <input type="file" id="images" name="images" accept="image/*" multiple className={styles.input} />
-                <small style={{ color: 'var(--color-text-muted)', fontSize: '0.8125rem' }}>You can select multiple images at once</small>
-              </div>
 
-              <div className={styles.formGroup}>
-                <label htmlFor="description">Description</label>
-                <textarea id="description" name="description" rows={4} defaultValue={product.description || ''} className={styles.input} placeholder="Enter a detailed description of the product..."></textarea>
-              </div>
-              <button type="submit" className={styles.btnPrimary}>Save Changes</button>
-            </form>
           </div>
         </div>
       </div>
