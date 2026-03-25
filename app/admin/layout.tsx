@@ -42,6 +42,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
             📦 Orders
             {newOrders > 0 && <span className={styles.notifBadge}>{newOrders}</span>}
           </Link>
+          <Link href="/admin/categories" className={styles.navLink}>🗂️ Categories</Link>
           <Link href="/admin/settings" className={styles.navLink}>⚙️ Settings</Link>
         </nav>
       </aside>

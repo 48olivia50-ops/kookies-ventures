@@ -11,6 +11,7 @@ import { PriceDisplay } from '@/components/PriceDisplay';
 import Link from 'next/link';
 import { CustomerHeader } from '@/components/CustomerHeader';
 import { HeroSlider } from '@/components/HeroSlider';
+import { ProductSlider } from '@/components/ProductSlider';
 
 const productPatterns = [
   'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
@@ -26,8 +27,7 @@ export default async function Home() {
   const slug = 'kookies';
 
   const store = await prisma.tenant.findUnique({
-    where: { slug },
-    include: { products: { orderBy: { createdAt: 'desc' } } }
+    where: { slug }
   });
 
   if (!store) {
@@ -40,6 +40,18 @@ export default async function Home() {
     );
   }
 
+  const [categories, uncategorizedProducts, totalProductsCount] = await Promise.all([
+    (prisma as any).category.findMany({
+      where: { tenantId: store.id },
+      include: { products: { orderBy: { createdAt: 'desc' } } }
+    }),
+    (prisma as any).product.findMany({
+      where: { tenantId: store.id, categoryId: null },
+      orderBy: { createdAt: 'desc' }
+    }),
+    (prisma as any).product.count({ where: { tenantId: store.id } })
+  ]);
+
   return (
     <div className={styles.storeContainer}>
       <CustomerHeader store={store} session={session} tenantSlug={slug} />
@@ -50,7 +62,7 @@ export default async function Home() {
             <div className={styles.heroInner}>
               <span className={styles.heroPill}>🏷️ New Collection</span>
               <h1>{store.name}</h1>
-              <p>Premium lifestyle essentials. {store.products.length} exclusive pieces available now.</p>
+              <p>Premium lifestyle essentials. {totalProductsCount} exclusive pieces available now.</p>
             </div>
             <div className={styles.heroSlider}>
               <HeroSlider />
@@ -63,40 +75,26 @@ export default async function Home() {
             </div>
           )}
 
-          <div className={styles.productsGrid}>
-            {store.products.map((product, idx) => (
-              <div key={product.id} className={styles.productCard}>
-                <Link href={`/product/${product.id}`} style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}>
-                  {product.imageUrl ? (
-                    <div
-                      className={styles.productImage}
-                      style={{ backgroundImage: `url(${product.imageUrl})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
-                    />
-                  ) : (
-                    <div
-                      className={styles.productImage}
-                      style={{ background: productPatterns[idx % productPatterns.length] }}
-                    >
-                      <span className={styles.productEmoji}>
-                        {['👕', '👖', '🧥', '👔', '🧤', '🧣', '🧢', '🪖', '👗', '🩱', '🩲', '🥻'][idx % 12]}
-                      </span>
-                    </div>
-                  )}
-                  <div className={styles.productInfo}>
-                    <h3>{product.name}</h3>
-                    {product.description && <p className={styles.description}>{product.description}</p>}
-                    <div className={styles.priceRow}>
-                      <span className={styles.price}><PriceDisplay amount={product.price} /></span>
-                      <span className={product.stock > 0 ? styles.inStock : styles.outOfStock}>
-                        {product.stock > 0 ? `✓ ${product.stock} In Stock` : '✗ Out of Stock'}
-                      </span>
-                    </div>
-                  </div>
-                </Link>
-                <AddToCartBtn product={product} isAuth={!!session?.isAuth} />
-              </div>
-            ))}
-          </div>
+          {categories.map((category: any) => category.products.length > 0 && (
+            <ProductSlider 
+              key={category.id}
+              products={category.products} 
+              isAuth={!!session?.isAuth} 
+              title={category.name}
+              subtitle={`Explore our latest ${category.name.toLowerCase()}`}
+            />
+          ))}
+
+          {uncategorizedProducts.length > 0 && (
+            <div style={categories.length > 0 ? { marginTop: '2rem' } : {}}>
+              <ProductSlider 
+                products={uncategorizedProducts} 
+                isAuth={!!session?.isAuth} 
+                title="More Products"
+                subtitle="Other items you might love"
+              />
+            </div>
+          )}
         </div>
       </main>
 

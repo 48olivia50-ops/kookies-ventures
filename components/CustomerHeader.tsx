@@ -39,8 +39,9 @@ export function CustomerHeader({ store, session, tenantSlug }: CustomerHeaderPro
         <CartButton tenantSlug={tenantSlug} />
         {session?.isAuth ? (
           <div className={styles.authGroup}>
+            <Link href="/profile" className={styles.profileLink}>Profile</Link>
             {session.role === 'ADMIN' && (
-              <Link href="/admin" className={styles.adminLink}>Admin Portal</Link>
+              <Link href="/admin" className={styles.adminLink}>Admin</Link>
             )}
             <form action={logout}>
               <button type="submit" className={styles.logoutBtn}>Logout</button>

@@ -9,10 +9,13 @@ import Image from 'next/image';
 export default async function EditProductPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
 
-  const product = await prisma.product.findUnique({
-    where: { id },
-    include: { tenant: true, images: true }
-  });
+  const [product, categories] = await Promise.all([
+    prisma.product.findUnique({
+      where: { id },
+      include: { tenant: true, images: true }
+    }),
+    prisma.category.findMany({ orderBy: { name: 'asc' } })
+  ]);
 
   if (!product) notFound();
 
@@ -42,6 +45,15 @@ export default async function EditProductPage({ params }: { params: Promise<{ id
               <div className={styles.formGroup}>
                 <label htmlFor="stock">Inventory Stock</label>
                 <input type="number" id="stock" name="stock" defaultValue={product.stock} required className={styles.input} />
+              </div>
+              <div className={styles.formGroup}>
+                <label>Category</label>
+                <select name="categoryId" defaultValue={product.categoryId || ''} className={styles.input}>
+                  <option value="">No Category</option>
+                  {categories.map((cat: any) => (
+                    <option key={cat.id} value={cat.id}>{cat.name}</option>
+                  ))}
+                </select>
               </div>
 
               {/* Product Images Section */}

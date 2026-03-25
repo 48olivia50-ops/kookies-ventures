@@ -52,6 +52,7 @@ export async function updateProduct(id: string, formData: FormData): Promise<voi
   const price = parseFloat(formData.get('price') as string);
   const stock = parseInt(formData.get('stock') as string) || 0;
   const description = formData.get('description') as string;
+  const categoryId = formData.get('categoryId') as string || null;
   const imageFiles = formData.getAll('images') as File[];
   const mainImageFile = formData.get('image') as File | null;
 
@@ -99,6 +100,7 @@ export async function updateProduct(id: string, formData: FormData): Promise<voi
         name,
         price,
         stock,
+        categoryId,
         description,
         ...(imageUrl && { imageUrl }),
         ...(newImageUrls.length > 0 && {

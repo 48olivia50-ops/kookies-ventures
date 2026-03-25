@@ -14,11 +14,11 @@ async function createProduct(formData: FormData) {
   const price = parseFloat(formData.get('price') as string);
   const stock = parseInt(formData.get('stock') as string) || 0;
   
-  // Find the single tenant
   const tenant = await prisma.tenant.findUnique({ where: { slug: 'kookies' } });
   const tenantId = tenant?.id;
   const description = formData.get('description') as string;
   const imageFile = formData.get('image') as File | null;
+  const categoryId = formData.get('categoryId') as string || null;
   
   if (name && price && tenantId) {
     let imageUrl = null;
@@ -32,8 +32,8 @@ async function createProduct(formData: FormData) {
         imageUrl = `/uploads/${filename}`;
       }
 
-      await prisma.product.create({
-        data: { name, price, stock, tenantId, description, imageUrl }
+      await (prisma as any).product.create({
+        data: { name, price, stock, tenantId, categoryId, description, imageUrl }
       });
       revalidatePath('/admin/products');
       revalidatePath('/admin');
@@ -44,16 +44,18 @@ async function createProduct(formData: FormData) {
 }
 
 export default async function ProductsAdminPage() {
-  const products = await prisma.product.findMany({
+  const products = await (prisma as any).product.findMany({
     orderBy: { createdAt: 'desc' },
     include: {
-      tenant: true
+      tenant: true,
+      category: true
     }
   });
 
-  const tenants = await prisma.tenant.findMany({
-    orderBy: { name: 'asc' }
-  });
+  const [tenants, categories] = await Promise.all([
+    prisma.tenant.findMany({ orderBy: { name: 'asc' } }),
+    (prisma as any).category.findMany({ orderBy: { name: 'asc' } })
+  ]);
 
   return (
     <div className={styles.container}>
@@ -79,10 +81,10 @@ export default async function ProductsAdminPage() {
                 </tr>
               </thead>
               <tbody>
-                {products.map(product => (
+                {products.map((product: any) => (
                   <tr key={product.id}>
                     <td className={styles.boldCell}>{product.name}</td>
-                    <td>{product.description?.includes('Bedroom') ? 'Bedroom' : 'Fashion'}</td>
+                    <td>{product.category?.name || 'Uncategorized'}</td>
                     <td><PriceDisplay amount={product.price} /></td>
                     <td>
                       <span className={product.stock > 10 ? styles.stockGreen : styles.stockRed}>
@@ -125,9 +127,14 @@ export default async function ProductsAdminPage() {
               </div>
 
               <div className={styles.formGroup}>
-                <label>Shop Association</label>
-                <input type="text" value="Kookies Ventures" disabled className={styles.input} style={{ background: '#f8fafc', color: '#64748b' }} />
-                <input type="hidden" name="tenantId" value={tenants.find(t => t.slug === 'kookies')?.id || ''} />
+                <label>Category</label>
+                <select name="categoryId" className={styles.input}>
+                  <option value="">No Category</option>
+                  {categories.map((cat: any) => (
+                    <option key={cat.id} value={cat.id}>{cat.name}</option>
+                  ))}
+                </select>
+                <input type="hidden" name="tenantId" value={tenants.find((t: any) => t.slug === 'kookies')?.id || ''} />
               </div>
 
               <div className={styles.formGroup}>
