@@ -31,7 +31,7 @@ export async function deleteProduct(id: string) {
   }
 }
 
-export async function deleteProductImage(_prevState: any, formData: FormData) {
+export async function deleteProductImage(formData: FormData) {
   const imageId = formData.get('imageId') as string;
   try {
     const image = await prisma.productImage.findUnique({ where: { id: imageId } });
