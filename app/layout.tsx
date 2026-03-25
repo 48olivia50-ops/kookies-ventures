@@ -1,8 +1,15 @@
 import type { Metadata, Viewport } from 'next';
+import { Montserrat } from 'next/font/google';
 import './globals.css';
 import { Providers } from './providers';
 import { CartProvider } from '@/components/CartContext';
 import { CartSidebar } from '@/components/CartUI';
+
+const montserrat = Montserrat({
+  subsets: ['latin'],
+  variable: '--font-montserrat',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: 'Kookies Ventures',
@@ -23,7 +30,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className={montserrat.variable}>
       <body>
         <Providers>
           <CartProvider>
