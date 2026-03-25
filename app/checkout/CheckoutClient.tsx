@@ -153,7 +153,13 @@ export default function CheckoutClient({ tenantSlug, isAuth }: Props) {
 
           {state?.success && (
             <div className={styles.success}>
-              ✅ Order placed successfully! Redirecting to confirmation page...
+              <p>✅ Order placed successfully!</p>
+              <p>Redirecting to confirmation page...</p>
+              {state.redirectUrl && (
+                <a href={state.redirectUrl} style={{ color: '#8b5cf6', textDecoration: 'underline', marginTop: '0.5rem', display: 'inline-block' }}>
+                  Click here if not redirected
+                </a>
+              )}
             </div>
           )}
 
