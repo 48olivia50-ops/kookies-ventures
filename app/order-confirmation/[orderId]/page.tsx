@@ -11,14 +11,38 @@ import { verifySession } from '@/lib/auth';
 export default async function OrderConfirmationPage({ params }: { params: Promise<{ orderId: string }> }) {
   const { orderId } = await params;
 
-  const order = await prisma.order.findUnique({
-    where: { id: orderId },
-    include: { items: { include: { product: true } }, tenant: true, user: true }
-  });
+  let order;
+  try {
+    order = await prisma.order.findUnique({
+      where: { id: orderId },
+      include: { items: { include: { product: true } }, tenant: true, user: true }
+    });
+  } catch (error) {
+    console.error('Error fetching order:', error);
+    return (
+      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ textAlign: 'center', padding: '2rem' }}>
+          <h1>Something went wrong</h1>
+          <p>We couldn't load your order details. Please try again later.</p>
+          <a href="/" style={{ color: '#8b5cf6', textDecoration: 'underline' }}>Go to Home</a>
+        </div>
+      </div>
+    );
+  }
 
   const session = await verifySession();
 
-  if (!order) notFound();
+  if (!order) {
+    return (
+      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ textAlign: 'center', padding: '2rem' }}>
+          <h1>Order not found</h1>
+          <p>We couldn't find this order. Please check your order history.</p>
+          <a href="/" style={{ color: '#8b5cf6', textDecoration: 'underline' }}>Go to Home</a>
+        </div>
+      </div>
+    );
+  }
 
   const trackingId = 'KV-' + order.id.slice(0, 8).toUpperCase();
 
