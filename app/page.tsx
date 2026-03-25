@@ -66,31 +66,33 @@ export default async function Home() {
           <div className={styles.productsGrid}>
             {store.products.map((product, idx) => (
               <div key={product.id} className={styles.productCard}>
-                {product.imageUrl ? (
-                  <div
-                    className={styles.productImage}
-                    style={{ backgroundImage: `url(${product.imageUrl})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
-                  />
-                ) : (
-                  <div
-                    className={styles.productImage}
-                    style={{ background: productPatterns[idx % productPatterns.length] }}
-                  >
-                    <span className={styles.productEmoji}>
-                      {['👕', '👖', '🧥', '👔', '🧤', '🧣', '🧢', '🪖', '👗', '🩱', '🩲', '🥻'][idx % 12]}
-                    </span>
+                <Link href={`/product/${product.id}`} style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}>
+                  {product.imageUrl ? (
+                    <div
+                      className={styles.productImage}
+                      style={{ backgroundImage: `url(${product.imageUrl})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+                    />
+                  ) : (
+                    <div
+                      className={styles.productImage}
+                      style={{ background: productPatterns[idx % productPatterns.length] }}
+                    >
+                      <span className={styles.productEmoji}>
+                        {['👕', '👖', '🧥', '👔', '🧤', '🧣', '🧢', '🪖', '👗', '🩱', '🩲', '🥻'][idx % 12]}
+                      </span>
+                    </div>
+                  )}
+                  <div className={styles.productInfo}>
+                    <h3>{product.name}</h3>
+                    {product.description && <p className={styles.description}>{product.description}</p>}
+                    <div className={styles.priceRow}>
+                      <span className={styles.price}><PriceDisplay amount={product.price} /></span>
+                      <span className={product.stock > 0 ? styles.inStock : styles.outOfStock}>
+                        {product.stock > 0 ? `✓ ${product.stock} In Stock` : '✗ Out of Stock'}
+                      </span>
+                    </div>
                   </div>
-                )}
-                <div className={styles.productInfo}>
-                  <h3>{product.name}</h3>
-                  {product.description && <p className={styles.description}>{product.description}</p>}
-                  <div className={styles.priceRow}>
-                    <span className={styles.price}><PriceDisplay amount={product.price} /></span>
-                    <span className={product.stock > 0 ? styles.inStock : styles.outOfStock}>
-                      {product.stock > 0 ? `✓ ${product.stock} In Stock` : '✗ Out of Stock'}
-                    </span>
-                  </div>
-                </div>
+                </Link>
                 <AddToCartBtn product={product} isAuth={!!session?.isAuth} />
               </div>
             ))}
