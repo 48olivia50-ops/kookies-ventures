@@ -82,6 +82,7 @@ export default async function Home() {
               isAuth={!!session?.isAuth} 
               title={category.name}
               subtitle={`Explore our latest ${category.name.toLowerCase()}`}
+              viewAllLink={`/category/${category.slug}`}
             />
           ))}
 

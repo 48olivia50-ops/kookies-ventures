@@ -21,6 +21,7 @@ interface ProductSliderProps {
   isAuth: boolean;
   title?: string;
   subtitle?: string;
+  viewAllLink?: string;
 }
 
 const productPatterns = [
@@ -34,7 +35,7 @@ const productPatterns = [
 
 const emojis = ['👕', '👖', '🧥', '👔', '🧤', '🧣', '🧢', '🪖', '👗', '🩱', '🩲', '🥻'];
 
-export function ProductSlider({ products, isAuth, title = "Trending Now", subtitle = "Discover our most popular pieces" }: ProductSliderProps) {
+export function ProductSlider({ products, isAuth, title = "Trending Now", subtitle = "Discover our most popular pieces", viewAllLink }: ProductSliderProps) {
   const trackRef = useRef<HTMLDivElement>(null);
 
   const scroll = (direction: 'left' | 'right') => {
@@ -56,6 +57,11 @@ export function ProductSlider({ products, isAuth, title = "Trending Now", subtit
           <h2>{title}</h2>
           <p>{subtitle}</p>
         </div>
+        {viewAllLink && (
+          <Link href={viewAllLink} className={styles.viewAllBtn}>
+            View All &rarr;
+          </Link>
+        )}
       </div>
 
       <div className={styles.sliderContainer}>
