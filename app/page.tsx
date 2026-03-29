@@ -7,6 +7,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { CustomerHeader } from '@/components/CustomerHeader';
 import { ProductSlider } from '@/components/ProductSlider';
+import LogoSvg from '../../public/logo.svg';
 
 // Static category images for home textiles
 const categoryImages: Record<string, string> = {
