@@ -19,13 +19,10 @@ async function runSQL() {
     }
 
     console.log('🔌 Connecting to Supabase database...');
+    console.log('Connection string:', connectionString.replace(/:[^:@]+@/, ':***@'));
 
     const client = new pg.Client({
         connectionString,
-        // Supabase may require SSL
-        ssl: {
-            rejectUnauthorized: false
-        }
     });
 
     try {

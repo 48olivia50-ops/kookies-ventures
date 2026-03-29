@@ -5,8 +5,6 @@ import { revalidatePath } from 'next/cache';
 
 export async function createCategory(formData: FormData) {
   const name = formData.get('name') as string;
-  const imageUrl = formData.get('imageUrl') as string;
-  const description = formData.get('description') as string;
 
   if (!name) return;
 
@@ -20,8 +18,6 @@ export async function createCategory(formData: FormData) {
       data: {
         name,
         slug,
-        imageUrl: imageUrl || null,
-        description: description || null,
         tenantId: tenant.id
       }
     });
@@ -30,30 +26,6 @@ export async function createCategory(formData: FormData) {
     revalidatePath('/');
   } catch (error) {
     console.error('Failed to create category', error);
-  }
-}
-
-export async function updateCategory(id: string, formData: FormData) {
-  const name = formData.get('name') as string;
-  const imageUrl = formData.get('imageUrl') as string;
-  const description = formData.get('description') as string;
-
-  if (!name) return;
-
-  try {
-    await prisma.category.update({
-      where: { id },
-      data: {
-        name,
-        imageUrl: imageUrl || null,
-        description: description || null,
-      }
-    });
-    revalidatePath('/admin/categories');
-    revalidatePath('/admin/products');
-    revalidatePath('/');
-  } catch (error) {
-    console.error('Failed to update category', error);
   }
 }
 

@@ -76,14 +76,14 @@ const products = [
     price: 49.99,
     description: 'Pure mulberry silk pillowcases. Gentle on hair and skin. Includes 2 pillowcases.',
     imageUrl: 'https://images.unsplash.com/photo-1584100936595-c0654b55a2e2?w=800&q=80',
-    category: 'Bedding'
+    category: 'Decor'
   },
   {
     name: 'Memory Foam Pillow',
     price: 79.99,
     description: 'Ergonomic memory foam pillow. Proper neck support for a restful sleep.',
     imageUrl: 'https://images.unsplash.com/photo-1592789705501-f9ae4278a9c9?w=800&q=80',
-    category: 'Bedding'
+    category: 'Decor'
   },
   {
     name: 'Decorative Pillow Set',
@@ -94,32 +94,12 @@ const products = [
   },
 ];
 
-// Categories with images
+// Categories
 const categories = [
-  {
-    name: 'Bedding',
-    slug: 'bedding',
-    imageUrl: 'https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=800&q=80',
-    description: 'Premium duvets, bedsheets, and pillowcases for a luxurious sleep experience'
-  },
-  {
-    name: 'Curtains',
-    slug: 'curtains',
-    imageUrl: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?w=800&q=80',
-    description: 'Elegant curtains for every room - blackout, sheer, and thermal options'
-  },
-  {
-    name: 'Decor',
-    slug: 'decor',
-    imageUrl: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&q=80',
-    description: 'Decorative pillows and accessories to transform your space'
-  },
-  {
-    name: 'Kitchen',
-    slug: 'kitchen',
-    imageUrl: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=80',
-    description: 'Table linens, kitchen textiles, and cooking essentials'
-  },
+  { name: 'Bedding', slug: 'bedding' },
+  { name: 'Curtains', slug: 'curtains' },
+  { name: 'Decor', slug: 'decor' },
+  { name: 'Kitchen', slug: 'kitchen' },
 ];
 
 async function main() {
@@ -148,12 +128,7 @@ async function main() {
       });
       console.log('Created category:', cat.name);
     } else {
-      // Update existing category with image
-      await prisma.category.update({
-        where: { id: existing.id },
-        data: { imageUrl: cat.imageUrl, description: cat.description }
-      });
-      console.log('Updated category:', cat.name);
+      console.log('Skipped category:', cat.name);
     }
   }
 

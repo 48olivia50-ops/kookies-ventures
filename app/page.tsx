@@ -8,6 +8,16 @@ import Image from 'next/image';
 import { CustomerHeader } from '@/components/CustomerHeader';
 import { ProductSlider } from '@/components/ProductSlider';
 
+// Static category images for home textiles
+const categoryImages: Record<string, string> = {
+  bedding: 'https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=800&q=80',
+  curtains: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?w=800&q=80',
+  decor: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&q=80',
+  kitchen: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=80',
+};
+
+const defaultCategoryImage = 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80';
+
 export default async function Home() {
   const session = await verifySession();
   const slug = 'kookies';
@@ -94,7 +104,15 @@ export default async function Home() {
                           className={styles.heroImage}
                         />
                       ) : (
-                        <div className={styles.heroImagePlaceholder}>🛏️</div>
+                        <div className={styles.heroImagePlaceholder}>
+                          <Image
+                            src={defaultCategoryImage}
+                            alt={product.name}
+                            width={200}
+                            height={150}
+                            className={styles.heroImage}
+                          />
+                        </div>
                       )}
                       <span className={styles.heroImageLabel}>{product.name}</span>
                     </div>
@@ -151,23 +169,21 @@ export default async function Home() {
           <section className={styles.quickLinks}>
             {categories.map((category: any) => (
               <Link key={category.id} href={`/category/${category.slug}`} className={styles.quickLinkCard}>
-                {category.imageUrl ? (
-                  <div className={styles.quickLinkImageWrapper}>
-                    <Image
-                      src={category.imageUrl}
-                      alt={category.name}
-                      width={400}
-                      height={300}
-                      className={styles.quickLinkImage}
-                    />
-                  </div>
-                ) : (
-                  <span className={styles.quickLinkIcon}>🛏️</span>
-                )}
-                <span className={styles.quickLinkTitle}>{category.name}</span>
-                <span className={styles.quickLinkDesc}>
-                  {category.description || `Explore our ${category.name.toLowerCase()} collection`}
-                </span>
+                <div className={styles.quickLinkImageWrapper}>
+                  <Image
+                    src={categoryImages[category.slug] || defaultCategoryImage}
+                    alt={category.name}
+                    width={400}
+                    height={300}
+                    className={styles.quickLinkImage}
+                  />
+                </div>
+                <div className={styles.quickLinkContent}>
+                  <span className={styles.quickLinkTitle}>{category.name}</span>
+                  <span className={styles.quickLinkDesc}>
+                    Explore our {category.name.toLowerCase()} collection
+                  </span>
+                </div>
               </Link>
             ))}
           </section>
