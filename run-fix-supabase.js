@@ -9,7 +9,7 @@ dotenv.config();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-async function fixSupabaseMigrations() {
+async function runSQL() {
     // Get the DIRECT_URL from environment (for superuser access)
     const connectionString = process.env.DIRECT_URL;
 
@@ -32,19 +32,17 @@ async function fixSupabaseMigrations() {
         await client.connect();
         console.log('✅ Connected to database');
 
-        // Read the SQL fix file
-        const sqlFix = readFileSync(join(__dirname, 'fix-supabase-migrations.sql'), 'utf-8');
+        // Determine which SQL file to run based on command line argument
+        const sqlFile = process.argv[2] || 'fix-supabase-migrations.sql';
+        console.log(`📝 Running SQL file: ${sqlFile}`);
 
-        console.log('📝 Executing migration fix...');
-        await client.query(sqlFix);
+        const sql = readFileSync(join(__dirname, sqlFile), 'utf-8');
+        await client.query(sql);
 
-        console.log('✅ Migration schema created successfully!');
-        console.log('');
-        console.log('The supabase_migrations.schema_migrations table has been created.');
-        console.log('This should resolve the "relation does not exist" error.');
+        console.log('✅ SQL executed successfully!');
 
     } catch (error) {
-        console.error('❌ Error fixing migrations:', error.message);
+        console.error('❌ Error:', error.message);
         if (error.message.includes('authentication failed')) {
             console.error('');
             console.error('⚠️  Authentication failed. Please check your database credentials in .env');
@@ -56,4 +54,4 @@ async function fixSupabaseMigrations() {
     }
 }
 
-fixSupabaseMigrations();
+runSQL();

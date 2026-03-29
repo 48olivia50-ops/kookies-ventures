@@ -4,6 +4,7 @@ import { prisma } from '@/lib/prisma';
 import { notFound } from 'next/navigation';
 import { verifySession } from '@/lib/auth';
 import Link from 'next/link';
+import Image from 'next/image';
 import { CustomerHeader } from '@/components/CustomerHeader';
 import { ProductSlider } from '@/components/ProductSlider';
 
@@ -60,7 +61,7 @@ export default async function Home() {
               <div className={styles.heroContent}>
                 <span className={styles.heroPill}>✨ New Collection 2024</span>
                 <h1>{store.name}</h1>
-                <p>Discover premium lifestyle essentials crafted for the modern connoisseur. Curated collections that define elegance.</p>
+                <p>Discover premium home textiles crafted for comfort and style. Transform your living spaces with our curated collection.</p>
 
                 <div className={styles.heroStats}>
                   <div className={styles.stat}>
@@ -81,29 +82,64 @@ export default async function Home() {
 
             <div className={styles.heroVisual}>
               <div className={styles.heroImageGrid}>
-                {featuredProducts.map((product: any, index: number) => (
-                  <div key={product.id} className={styles.heroImageCard}>
-                    <span className={styles.heroImageEmoji}>{product.emoji || '🛍️'}</span>
-                    <span className={styles.heroImageLabel}>{product.name}</span>
-                  </div>
-                ))}
-                {featuredProducts.length === 0 && (
+                {featuredProducts.length > 0 ? (
+                  featuredProducts.map((product: any, index: number) => (
+                    <div key={product.id} className={styles.heroImageCard}>
+                      {product.imageUrl ? (
+                        <Image
+                          src={product.imageUrl}
+                          alt={product.name}
+                          width={200}
+                          height={150}
+                          className={styles.heroImage}
+                        />
+                      ) : (
+                        <div className={styles.heroImagePlaceholder}>🛏️</div>
+                      )}
+                      <span className={styles.heroImageLabel}>{product.name}</span>
+                    </div>
+                  ))
+                ) : (
                   <>
                     <div className={styles.heroImageCard}>
-                      <span className={styles.heroImageEmoji}>👗</span>
-                      <span className={styles.heroImageLabel}>Fashion</span>
+                      <Image
+                        src="https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=400&q=80"
+                        alt="Bedding"
+                        width={200}
+                        height={150}
+                        className={styles.heroImage}
+                      />
+                      <span className={styles.heroImageLabel}>Bedding</span>
                     </div>
                     <div className={styles.heroImageCard}>
-                      <span className={styles.heroImageEmoji}>💄</span>
-                      <span className={styles.heroImageLabel}>Beauty</span>
+                      <Image
+                        src="https://images.unsplash.com/photo-1513694203232-719a280e022f?w=400&q=80"
+                        alt="Curtains"
+                        width={200}
+                        height={150}
+                        className={styles.heroImage}
+                      />
+                      <span className={styles.heroImageLabel}>Curtains</span>
                     </div>
                     <div className={styles.heroImageCard}>
-                      <span className={styles.heroImageEmoji}>🎒</span>
-                      <span className={styles.heroImageLabel}>Accessories</span>
+                      <Image
+                        src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400&q=80"
+                        alt="Decor"
+                        width={200}
+                        height={150}
+                        className={styles.heroImage}
+                      />
+                      <span className={styles.heroImageLabel}>Decor</span>
                     </div>
                     <div className={styles.heroImageCard}>
-                      <span className={styles.heroImageEmoji}>💡</span>
-                      <span className={styles.heroImageLabel}>Lifestyle</span>
+                      <Image
+                        src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&q=80"
+                        alt="Kitchen"
+                        width={200}
+                        height={150}
+                        className={styles.heroImage}
+                      />
+                      <span className={styles.heroImageLabel}>Kitchen</span>
                     </div>
                   </>
                 )}
@@ -111,28 +147,29 @@ export default async function Home() {
             </div>
           </section>
 
-          {/* Quick Links */}
+          {/* Quick Links - Categories with Images */}
           <section className={styles.quickLinks}>
-            <Link href="/category/fashion" className={styles.quickLinkCard}>
-              <span className={styles.quickLinkIcon}>👗</span>
-              <span className={styles.quickLinkTitle}>Fashion</span>
-              <span className={styles.quickLinkDesc}>Latest trends</span>
-            </Link>
-            <Link href="/category/beauty" className={styles.quickLinkCard}>
-              <span className={styles.quickLinkIcon}>💄</span>
-              <span className={styles.quickLinkTitle}>Beauty</span>
-              <span className={styles.quickLinkDesc}>Skincare & more</span>
-            </Link>
-            <Link href="/category/accessories" className={styles.quickLinkCard}>
-              <span className={styles.quickLinkIcon}>🎒</span>
-              <span className={styles.quickLinkTitle}>Accessories</span>
-              <span className={styles.quickLinkDesc}>Complete your look</span>
-            </Link>
-            <Link href="/category/lifestyle" className={styles.quickLinkCard}>
-              <span className={styles.quickLinkIcon}>💡</span>
-              <span className={styles.quickLinkTitle}>Lifestyle</span>
-              <span className={styles.quickLinkDesc}>Home & living</span>
-            </Link>
+            {categories.map((category: any) => (
+              <Link key={category.id} href={`/category/${category.slug}`} className={styles.quickLinkCard}>
+                {category.imageUrl ? (
+                  <div className={styles.quickLinkImageWrapper}>
+                    <Image
+                      src={category.imageUrl}
+                      alt={category.name}
+                      width={400}
+                      height={300}
+                      className={styles.quickLinkImage}
+                    />
+                  </div>
+                ) : (
+                  <span className={styles.quickLinkIcon}>🛏️</span>
+                )}
+                <span className={styles.quickLinkTitle}>{category.name}</span>
+                <span className={styles.quickLinkDesc}>
+                  {category.description || `Explore our ${category.name.toLowerCase()} collection`}
+                </span>
+              </Link>
+            ))}
           </section>
 
           {/* Guest Banner */}

@@ -53,6 +53,7 @@ export async function updateProduct(id: string, formData: FormData): Promise<voi
   const stock = parseInt(formData.get('stock') as string) || 0;
   const description = formData.get('description') as string;
   const categoryId = formData.get('categoryId') as string || null;
+  const imageUrlInput = formData.get('imageUrl') as string || null;
   const imageFiles = formData.getAll('images') as File[];
   const mainImageFile = formData.get('image') as File | null;
 
@@ -60,10 +61,14 @@ export async function updateProduct(id: string, formData: FormData): Promise<voi
     throw new Error('Name and Price are required');
   }
 
-  let imageUrl = undefined;
+  let imageUrl: string | undefined = undefined;
 
-  // Handle main image upload
-  if (mainImageFile && mainImageFile.size > 0) {
+  // Priority 1: If external image URL is provided, use it
+  if (imageUrlInput) {
+    imageUrl = imageUrlInput;
+  }
+  // Priority 2: If file upload is provided, use it
+  else if (mainImageFile && mainImageFile.size > 0) {
     try {
       const buffer = Buffer.from(await mainImageFile.arrayBuffer());
       const filename = `${Date.now()}-${mainImageFile.name.replace(/[^a-zA-Z0-9.]/g, '_')}`;
